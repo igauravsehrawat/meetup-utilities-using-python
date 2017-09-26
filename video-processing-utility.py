@@ -1,7 +1,8 @@
+#!/usr/local/bin/python3
+
 import shlex
 import subprocess
 from time import sleep
-from code import InteractiveConsole
 
 def while_true(process):
     while True:
@@ -22,23 +23,25 @@ def while_true(process):
         sleep(1)
 
 def main():
-    talk_title = InteractiveConsole.raw_input(
-        prompt="Enter the talk title")
-    talk_speaker = InteractiveConsole.raw_input(
-        prompt="Enter speaker's full name")
-    talk_month = InteractiveConsole.raw_input(
-        prompt="Which month the talk was recorded?")
-    talk_year = InteractiveConsole.raw_input(
-        prompt="Which year the talk was presented?")
+    # talk_title = input("Enter the talk title: ")
+    # talk_speaker = input("Enter speaker's full name: ")
+    # talk_month = input("Which month the talk was recorded?: ")
+    # talk_year = input("Which year the talk was presented?: ")
 
-    print("Generating the attribution..")
+    talk_title = "asdfklj"
+    talk_speaker = "dsflakj"
+    talk_month = "sdlkfj"
+    talk_year = "dklfjsa"
+
     command = (
-        "sed -e 's/%title%/{talk_title}/g' -e 's/%speaker%/"
-        "{talk_speaker}/g' -e 's/%month%/{talk_month}/g' -e 's/%year%/"
-        "{talk_month}/g' preface-template.svg > preface-generated.svg")
+        "sed -e 's/%title%/{0}/g' -e 's/%speaker%/"
+        "{1}/g' -e 's/%month%/{2}/g' -e 's/%year%/"
+        "{3}/g' ./preface-template.svg > ./preface-generated.svg").format(talk_title, talk_speaker, talk_month, talk_year)
     args = shlex.split(command)
-    process = subprocess.Popen(args)
-    while_true(process)
+    print(command)
+    # process = subprocess.Popen(command)
+    # subprocess.check_call(command)
+    # while_true(process)
 
 if __name__ == "__main__":
     main()
