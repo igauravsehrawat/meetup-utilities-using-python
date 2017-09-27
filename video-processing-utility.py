@@ -34,7 +34,6 @@ def generate_banner():
         "{3}/g' ./title-template.svg").format(
             talk_title, talk_speaker, talk_month, talk_year)
     args = shlex.split(command)
-    print(command)
     print(args)
     with open("preface.svg", "w") as generated_content:
         process = subprocess.run(args, stdout=generated_content)
@@ -44,7 +43,9 @@ def generate_png():
     width = input("What's your recorded video frame width?")
     height = input("What's your recorded video frame height?")
 
-    command = ("convert title.svg -density 150 -resize 1366x768! title.png")
+    command = (
+        "convert preface.svg -density 150 -resize {0}x{1}! preface.png").format(
+            width, height)
     args = shlex.split(command)
     print(args)
     process = subprocess.run(args)
