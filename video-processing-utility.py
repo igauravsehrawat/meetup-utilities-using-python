@@ -40,8 +40,30 @@ def generate_banner():
         process = subprocess.run(args, stdout=generated_content)
         while_true("SVG generation", process)
 
+def generate_png():
+    width = input("What's your recorded video frame width?")
+    height = input("What's your recorded video frame height?")
+
+    command = ("convert title.svg -density 150 -resize 1366x768! title.png")
+    args = shlex.split(command)
+    print(args)
+    process = subprocess.run(args)
+    while_true("PNG Generation", process)
+
+def generate_preface_video():
+    command = (
+        "ffmpeg -loop 1 -i preface.png -f lavfi -i aevalsrc=0 -acodec "
+        "libvo_aacenc -ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp "
+        "0 preface-video.mp4"
+    )
+    args = shlex.split(command)
+    process = subprocess.run(args)
+    while_true("Preface video generation", process)
+
 def main():
     generate_banner()
+    generate_png()
+    generate_preface_video()
 
 if __name__ == "__main__":
     main()
