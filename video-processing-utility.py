@@ -40,8 +40,8 @@ def generate_banner():
         while_true("SVG generation", process)
 
 def generate_png():
-    width = input("What's your recorded video frame width?")
-    height = input("What's your recorded video frame height?")
+    width = input("What is the recorded video frame's width:? ")
+    height = input("What is the  your recorded video frame's height:? ")
 
     command = (
         "convert preface.svg -density 150 -resize {0}x{1}! preface.png").format(
@@ -61,10 +61,34 @@ def generate_preface_video():
     process = subprocess.run(args)
     while_true("Preface video generation", process)
 
+def trim_the_video():
+    osWalk = os.walk(".")
+    allFiles = None
+    for curDir, childDirs, files in osWalk:
+        if curDir == ".":
+            allFiles = files
+            break
+    autoCompleteFiles = WordCompleter(allFiles, ignore_case=True)
+    videoFileName = prompt(
+        "Which video file you like to trim: ",
+        completer=autoCompleteFiles,
+        complete_while_typing=True)
+    startTime = prompt("Start time for the video: ")
+    endTime = prompt("End time for the video: ")
+    command = (
+        "ffmpeg -i {0} -r 24 -c copy -ss {1} -to {2} trimmed-{0}.mp4"
+    ).format(videoFileName, startTime, endTime, videoFileName)
+
+    process = subprocess
+    args = shlex.split(command)
+    process = subprocess.run(args)
+    while_true("Video trimming", process)
+
 def main():
     generate_banner()
     generate_png()
     generate_preface_video()
+    trim_the_video()
 
 if __name__ == "__main__":
     main()
