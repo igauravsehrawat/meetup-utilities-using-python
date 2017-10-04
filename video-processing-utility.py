@@ -46,19 +46,17 @@ def generate_png(width, height):
         "convert preface.svg -density 150 -resize {0}x{1}! preface.png").format(
             width, height)
     args = shlex.split(command)
-    process = subprocess.run(
-        args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(args)
     while_true("PNG Generation", process)
 
 def generate_preface_video():
     command = (
-        "ffmpeg -loop 1 -i preface.png -f lavfi -i aevalsrc=0 -acodec "
-        "libvo_aacenc -ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp "
+        "ffmpeg -loop 1 -i preface.png -f lavfi -i aevalsrc=0 -c:a aac "
+        "-ab 128k -map 0:0 -map 1:0 -t 7 -preset ultrafast -qp "
         "0 preface-video.mp4"
     )
     args = shlex.split(command)
-    process = subprocess.run(
-        args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(args)
     while_true("Preface video generation", process)
 
 def trim_the_video():
@@ -77,14 +75,14 @@ def trim_the_video():
         complete_while_typing=True)
     startTime = prompt("Start time for the video: ")
     endTime = prompt("End time for the video: ")
+
     command = (
         "ffmpeg -i {0} -r 24 -ss {1} -to {2} trimmed-{0}.mp4"
     ).format(video_file_name, startTime, endTime, video_file_name)
 
     process = subprocess
     args = shlex.split(command)
-    process = subprocess.run(
-        args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(args)
     while_true("Video trimming", process)
     return video_file_name
 
@@ -106,6 +104,7 @@ def video_info(video_file_name):
 
 def make_uploadable_video(video_file_name):
     print("Generating uploadable video")
+
     command = (
         """ffmpeg -i preface-video.mp4 -i trimmed-{0}.mp4 -filter_complex """
         """ "[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" """
@@ -113,8 +112,7 @@ def make_uploadable_video(video_file_name):
     ).format(video_file_name)
     process = subprocess
     args = shlex.split(command)
-    process = subprocess.run(
-        args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(args)
     while_true("Making uploadable", process)
 
 def main():
