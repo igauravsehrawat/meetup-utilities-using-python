@@ -63,21 +63,46 @@ def generate_preface_video():
 
 def trim_the_video():
     osWalk = os.walk(".")
-    allFiles = None
+    allFiles = []
     for curDir, childDirs, files in osWalk:
         if curDir == ".":
-            allFiles = files
+            for file in files:
+                if ("mp4" in file) or ("mov" in file) or ("webm" in file):
+                    allFiles.append(file)
             break
     autoCompleteFiles = WordCompleter(allFiles, ignore_case=True)
-    videoFileName = prompt(
+    video_file_name = prompt(
         "Which video file you like to trim: ",
         completer=autoCompleteFiles,
         complete_while_typing=True)
     startTime = prompt("Start time for the video: ")
     endTime = prompt("End time for the video: ")
     command = (
-        "ffmpeg -i {0} -r 24 -c copy -ss {1} -to {2} trimmed-{0}.mp4"
-    ).format(videoFileName, startTime, endTime, videoFileName)
+        "ffmpeg -i {0} -r 24 -ss {1} -to {2} trimmed-{0}.mp4"
+    ).format(video_file_name, startTime, endTime, video_file_name)
+
+    process = subprocess
+    args = shlex.split(command)
+    process = subprocess.run(args)
+    while_true("Video trimming", process)
+    return video_file_name
+
+def video_info(video_file_name):
+    command = (
+        "ffprobe -v error -show_entries stream=width,height "
+        " -of default=noprint_wrappers=1 -of json {0}"
+    ).format(video_file_name)
+    process = subprocess
+    args = shlex.split(command)
+    process = subprocess.run(args, stdout=subprocess.PIPE)
+    output = process.stdout
+    if (output is not None):
+        video_info = json.loads(output)
+        stream_info = video_info["streams"][0]
+        wh = [stream_info["width"], stream_info["height"]]
+        print("wh: ", wh)
+        return wh
+    return None
 
     process = subprocess
     args = shlex.split(command)
