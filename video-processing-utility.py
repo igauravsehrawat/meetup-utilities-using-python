@@ -9,6 +9,7 @@ from time import sleep
 
 def while_true(what, process):
     while True:
+        print(True)
         if process.returncode is None:
             print("..", end="")
         elif process.returncode == 0:
@@ -69,10 +70,6 @@ def trim_the_video():
                 file_name, extension = os.path.splitext(file)
                 if (extension in allowed_extension):
                     all_files.append(file)
-                else:
-                    print(
-                        "Only files with this ", allowed_extension,
-                        "are allowed")
             break
     autoCompleteFiles = WordCompleter(all_files, ignore_case=True)
     video_file_name = prompt(
@@ -82,6 +79,11 @@ def trim_the_video():
     startTime = prompt("Start time for the video: ")
     endTime = prompt("End time for the video: ")
 
+    file_name, extension = os.path.splitext(video_file_name)
+    if extension not in allowed_extension:
+        print("The file you specified isn't supported at the moment.")
+        print("Exiting now.")
+        exit()
     command = (
         "ffmpeg -i {0} -r 24 -ss {1} -to {2} trimmed-{0}.mp4"
     ).format(video_file_name, startTime, endTime, video_file_name)
