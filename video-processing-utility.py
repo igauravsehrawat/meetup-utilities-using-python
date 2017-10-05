@@ -6,14 +6,14 @@ import json
 from prompt_toolkit.contrib.completers import WordCompleter
 from prompt_toolkit import prompt
 from time import sleep
+import colorama
 
 def while_true(what, process):
     while True:
-        print(True)
-        if process.returncode is None:
-            print("..", end="")
-        elif process.returncode == 0:
-            print(what, "Ran successfully")
+        print("process returncode", process.returncode)
+        if process.returncode == 0:
+            print(colorama.Fore.GREEN, what, " ,ran successfully")
+            print(colorama.Style.RESET_ALL)
             return
         elif process.returncode < 0:
             outs, errs = process.stdout, process.stderr
@@ -27,10 +27,10 @@ def while_true(what, process):
         sleep(1)
 
 def generate_banner():
-    talk_title = input("Enter the talk title: ")
-    talk_speaker = input("Enter speaker's full name: ")
-    talk_month = input("Which month the talk was recorded?: ")
-    talk_year = input("Which year the talk was presented?: ")
+    talk_title = prompt("Enter the talk title: ")
+    talk_speaker = prompt("Enter speaker's full name: ")
+    talk_month = prompt("Which month the talk was recorded ?: ")
+    talk_year = prompt("Which year the talk was presented ?: ")
 
     command = (
         """sed -e 's/%title%/{0}/g' -e 's/%speaker%/"""
