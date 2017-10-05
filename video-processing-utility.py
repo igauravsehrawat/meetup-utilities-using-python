@@ -61,14 +61,20 @@ def generate_preface_video():
 
 def trim_the_video():
     osWalk = os.walk(".")
-    allFiles = []
+    all_files = []
+    allowed_extension = [".mp4", ".mov", ".webm"]
     for curDir, childDirs, files in osWalk:
         if curDir == ".":
             for file in files:
-                if ("mp4" in file) or ("mov" in file) or ("webm" in file):
-                    allFiles.append(file)
+                file_name, extension = os.path.splitext(file)
+                if (extension in allowed_extension):
+                    all_files.append(file)
+                else:
+                    print(
+                        "Only files with this ", allowed_extension,
+                        "are allowed")
             break
-    autoCompleteFiles = WordCompleter(allFiles, ignore_case=True)
+    autoCompleteFiles = WordCompleter(all_files, ignore_case=True)
     video_file_name = prompt(
         "Which video file you like to trim: ",
         completer=autoCompleteFiles,
