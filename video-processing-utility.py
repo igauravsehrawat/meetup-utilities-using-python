@@ -1,30 +1,8 @@
 #!/usr/local/bin/python3
-import os
 import shlex
 import subprocess
 import json
-from prompt_toolkit.contrib.completers import WordCompleter
 from prompt_toolkit import prompt
-from time import sleep
-import colorama
-
-def while_true(what, process):
-    while True:
-        print("process returncode", process.returncode)
-        if process.returncode == 0:
-            print(colorama.Fore.GREEN, what, " ,ran successfully")
-            print(colorama.Style.RESET_ALL)
-            return
-        elif process.returncode < 0:
-            outs, errs = process.stdout, process.stderr
-            print(what, outs, errs)
-            return
-        elif process.returncode > 0:
-            outs, errs = process.stdout, process.stderr
-            print(outs, errs)
-            print(what, "Have you installed all the tools?")
-            return
-        sleep(1)
 
 def generate_banner():
     talk_title = prompt("Enter the talk title: ")
@@ -59,40 +37,6 @@ def generate_preface_video():
     args = shlex.split(command)
     process = subprocess.run(args)
     while_true("Preface video generation", process)
-
-def trim_the_video():
-    osWalk = os.walk(".")
-    all_files = []
-    allowed_extension = [".mp4", ".mov", ".webm"]
-    for curDir, childDirs, files in osWalk:
-        if curDir == ".":
-            for file in files:
-                file_name, extension = os.path.splitext(file)
-                if (extension in allowed_extension):
-                    all_files.append(file)
-            break
-    autoCompleteFiles = WordCompleter(all_files, ignore_case=True)
-    video_file_name = prompt(
-        "Which video file you like to trim: ",
-        completer=autoCompleteFiles,
-        complete_while_typing=True)
-    startTime = prompt("Start time for the video: ")
-    endTime = prompt("End time for the video: ")
-
-    file_name, extension = os.path.splitext(video_file_name)
-    if extension not in allowed_extension:
-        print("The file you specified isn't supported at the moment.")
-        print("Exiting now.")
-        exit()
-    command = (
-        "ffmpeg -i {0} -r 24 -ss {1} -to {2} trimmed-{0}.mp4"
-    ).format(video_file_name, startTime, endTime, video_file_name)
-
-    process = subprocess
-    args = shlex.split(command)
-    process = subprocess.run(args)
-    while_true("Video trimming", process)
-    return video_file_name
 
 def video_info(video_file_name):
     command = (
