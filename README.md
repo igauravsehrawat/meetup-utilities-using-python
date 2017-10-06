@@ -1,17 +1,21 @@
 ## Meetup utilities
 
-## Current utilities are:
+## Current utilities:
 
-### Video process unit: 
-+ This utility will able to trim the videos.
+## Video process unit: 
 + Add preface to videos
++ Trim the videos.
++ Join the videos
 + Trim the audio
-+ Join audio and video
++ Overlay audio on video.
 
-### Meetup bot
-+ Meetup bot: This utility will help meetup account to like, retweet the tweets with positive sentiment.
-+ Post meetup announcement(publicity)
-+ Post speakers' talk, ask for remaining talks
-+ Interact in DM by providing help commands
-+ Follow famous python accounts and retweet them.
+### Requirements
++ Python3
++ ffmpeg
+
+### Running the script
+
++ `pip3 install -r requirements.txt` (If requirements not met)
+
++ `python3 video-processing-utility.py`
 
