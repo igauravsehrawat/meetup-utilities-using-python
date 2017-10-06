@@ -140,12 +140,12 @@
          sodipodi:role="line"
          style="font-size:69.68175507px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"
          x="930.75604"
-         y="657.96863">“Deep Learning Based OCR Engine For The Indus Script”</tspan><tspan
+         y="657.96863">“%title%”</tspan><tspan
          id="tspan3426"
          sodipodi:role="line"
          style="font-size:69.68175507px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"
          x="930.75604"
-         y="745.0708">by Satish Palaniappan</tspan><tspan
+         y="745.0708">by %speaker%</tspan><tspan
          id="tspan3424"
          sodipodi:role="line"
          style="font-size:69.68175507px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"
@@ -155,7 +155,7 @@
          style="font-size:69.68175507px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"
          x="930.75604"
          y="919.27521"
-         id="tspan3193">Chennaipy May 2017 Meetup</tspan><tspan
+         id="tspan3193">Chennaipy %month% %year% Meetup</tspan><tspan
          sodipodi:role="line"
          style="font-size:48px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"
          x="930.75604"
