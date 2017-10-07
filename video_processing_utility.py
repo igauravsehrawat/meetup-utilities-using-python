@@ -3,12 +3,26 @@ import shlex
 import subprocess
 import json
 from prompt_toolkit import prompt
+from common import trim_the_video
+from prompt_toolkit.contrib.completers import WordCompleter
 
 def generate_banner():
     talk_title = prompt("Enter the talk title: ")
     talk_speaker = prompt("Enter speaker's full name: ")
-    talk_month = prompt("Which month the talk was recorded ?: ")
-    talk_year = prompt("Which year the talk was presented ?: ")
+    months = [
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"]
+    auto_complete_files = WordCompleter(months, ignore_case=True)
+    talk_month = prompt(
+        "Which month the talk was recorded ?: ",
+        completer=auto_complete_files,
+        complete_while_typing=True)
+    years = ["2017", "2018", "2019", "2020"]
+    auto_complete_files = WordCompleter(years, ignore_case=True)
+    talk_year = prompt(
+        "Which year the talk was presented ?: ",
+        completer=auto_complete_files,
+        complete_while_typing=True)
 
     command = (
         """sed -e 's/%title%/{0}/g' -e 's/%speaker%/"""
@@ -17,16 +31,16 @@ def generate_banner():
             talk_title, talk_speaker, talk_month, talk_year)
     args = shlex.split(command)
     with open("preface.svg", "w") as generated_content:
-        process = subprocess.run(args, stdout=generated_content)
-        while_true("SVG generation", process)
+        subprocess.run(args, stdout=generated_content)
+
 
 def generate_png(width, height):
     command = (
         "convert preface.svg -density 150 -resize {0}x{1}! preface.png").format(
             width, height)
     args = shlex.split(command)
-    process = subprocess.run(args)
-    while_true("PNG Generation", process)
+    subprocess.run(args)
+
 
 def generate_preface_video():
     command = (
@@ -35,8 +49,8 @@ def generate_preface_video():
         "0 preface-video.mp4"
     )
     args = shlex.split(command)
-    process = subprocess.run(args)
-    while_true("Preface video generation", process)
+    subprocess.run(args)
+
 
 def video_info(video_file_name):
     command = (
@@ -58,14 +72,13 @@ def make_uploadable_video(video_file_name):
     print("Generating uploadable video")
 
     command = (
-        """ffmpeg -i preface-video.mp4 -i trimmed-{0}.mp4 -filter_complex """
+        """ffmpeg -i preface-video.mp4 -i {0} -filter_complex """
         """ "[0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" """
-        """-map "[a]"  uploadable{0}.mp4"""
+        """-map "[a]"  uploadable-{0}.mp4"""
     ).format(video_file_name)
-    process = subprocess
     args = shlex.split(command)
-    process = subprocess.run(args)
-    while_true("Making uploadable", process)
+    subprocess.run(args)
+
 
 def main():
     # 1, 2, 3, 4, 5
