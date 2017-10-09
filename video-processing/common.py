@@ -1,6 +1,7 @@
 import os
 import shlex
 import subprocess
+from halo import Halo
 from prompt_toolkit.contrib.completers import WordCompleter
 from prompt_toolkit import prompt
 
@@ -38,5 +39,6 @@ def trim_the_video():
     ).format(video_file_name, start_time, end_time, video_file_name)
 
     args = shlex.split(command)
-    subprocess.run(args)
+    with Halo(text="Generating preface video...", spinner='earth'):
+        subprocess.run(args)
     return "trimmed-{0}.mp4".format(video_file_name)
