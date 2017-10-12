@@ -10,13 +10,17 @@ class MyStreamListener(tweepy.StreamListener):
         if status_code == 420:
             return False
 
-if __name__ == "__main__":
-
+def twitter_stream():
     auth = tweepy.OAuthHandler(
         bc.provide_key("consumer_key"), bc.provide_key("consumer_secret"))
-
+    auth.set_access_token(
+        bc.provide_key("access_token"), bc.provide_key("access_token_secret"))
     api = tweepy.API(auth)
 
-    twitterStreamListener = MyStreamListener()
-    twitterStream = tweepy.Stream(
-        auth = api.auth, listener=twitterStreamListener)
+    twitter_stream_listener = MyStreamListener()
+    twitter_stream = tweepy.Stream(
+        auth = api.auth, listener=twitter_stream_listener)
+    twitter_stream.filter(track=["python", "programming", "coding"])
+
+if __name__ == "__main__":
+    twitter_stream()
