@@ -6,6 +6,9 @@ class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         print(status.text)
 
+    def on_direct_message(self, status):
+        print(status.text)
+
     def on_error(self, status_code):
         if status_code == 420:
             return False
@@ -20,7 +23,8 @@ def twitter_stream():
     twitter_stream_listener = MyStreamListener()
     twitter_stream = tweepy.Stream(
         auth = api.auth, listener=twitter_stream_listener)
-    twitter_stream.filter(track=["python", "programming", "coding"])
+    # twitter_stream.filter(track=["python"])
+    twitter_stream.userstream()
 
 if __name__ == "__main__":
     twitter_stream()
